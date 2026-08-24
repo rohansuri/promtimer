@@ -56,6 +56,7 @@
         "multi": false,
         "skipUrlSync": false
       }
+
     ]
   },
   "_panels": [
@@ -609,6 +610,111 @@
               "reducer": "sum"
             }
           }
+        }
+      ]
+    },
+    {
+      "_base": "panel",
+      "title": "Latency",
+      "type": "row"
+    },
+    {
+      "_base": "panel",
+      "datasource": "${node}",
+      "title": "GET latency",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "fillOpacity": 5
+          },
+          "unit": "ms"
+        }
+      },
+      "gridPos": {
+        "h": 9
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(kv_cmd_duration_seconds_bucket{bucket=\"$bucket\",opcode=\"GET\"}[10m]))) * 1000",
+          "hide": false,
+          "legendFormat": "p50",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.90, sum by (le) (rate(kv_cmd_duration_seconds_bucket{bucket=\"$bucket\",opcode=\"GET\"}[10m]))) * 1000",
+          "hide": false,
+          "legendFormat": "p90",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(kv_cmd_duration_seconds_bucket{bucket=\"$bucket\",opcode=\"GET\"}[10m]))) * 1000",
+          "hide": false,
+          "legendFormat": "p99",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.999, sum by (le) (rate(kv_cmd_duration_seconds_bucket{bucket=\"$bucket\",opcode=\"GET\"}[10m]))) * 1000",
+          "hide": false,
+          "legendFormat": "p99.9",
+          "range": true,
+          "refId": "D"
+        }
+      ]
+    },
+    {
+      "_base": "panel",
+      "datasource": "${node}",
+      "title": "SET latency",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "fillOpacity": 5
+          },
+          "unit": "ms"
+        }
+      },
+      "gridPos": {
+        "h": 9
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(kv_cmd_duration_seconds_bucket{bucket=\"$bucket\",opcode=\"SET\"}[10m]))) * 1000",
+          "hide": false,
+          "legendFormat": "p50",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.90, sum by (le) (rate(kv_cmd_duration_seconds_bucket{bucket=\"$bucket\",opcode=\"SET\"}[10m]))) * 1000",
+          "hide": false,
+          "legendFormat": "p90",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(kv_cmd_duration_seconds_bucket{bucket=\"$bucket\",opcode=\"SET\"}[10m]))) * 1000",
+          "hide": false,
+          "legendFormat": "p99",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.999, sum by (le) (rate(kv_cmd_duration_seconds_bucket{bucket=\"$bucket\",opcode=\"SET\"}[10m]))) * 1000",
+          "hide": false,
+          "legendFormat": "p99.9",
+          "range": true,
+          "refId": "D"
         }
       ]
     },
@@ -1676,6 +1782,36 @@
             },
             "replaceFields": true
           }
+        }
+      ]
+    },
+    {
+      "_base": "panel",
+      "title": "OS",
+      "type": "row"
+    },
+    {
+      "_base": "panel",
+      "datasource": "${node}",
+      "title": "Allocation stall rate",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "fillOpacity": 5
+          }
+        }
+      },
+      "gridPos": {
+        "h": 9
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "rate(sys_allocstall[1m])",
+          "hide": false,
+          "legendFormat": "allocstall",
+          "range": true,
+          "refId": "A"
         }
       ]
     }
