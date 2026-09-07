@@ -92,7 +92,7 @@
       {
         "_base": "panel",
         "datasource": "${node}",
-        "title": "Sync session progress",
+        "title": "Pending upload bytes",
         "fieldConfig": {
           "defaults": {
             "custom": {
@@ -106,14 +106,9 @@
         },
         "targets": [
           {
-            "expr": "kv_ep_fusion_sync_session_total_bytes_bytes{bucket=\"$bucket\"}",
-            "legendFormat": "total bytes",
+            "expr": "kv_ep_fusion_pending_upload_bytes_bytes{bucket=\"$bucket\"}",
+            "legendFormat": "pending upload bytes",
             "refId": "A"
-          },
-          {
-            "expr": "kv_ep_fusion_sync_session_completed_bytes_bytes{bucket=\"$bucket\"}",
-            "legendFormat": "completed bytes",
-            "refId": "B"
           }
         ]
       },
